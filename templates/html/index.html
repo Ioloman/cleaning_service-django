@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">УбирайКА!</h1>
+                <p>На нашем портале клининговых услуг "УбирайКА", который входит во всероссийскую сеть 
+                    компаний iCal, Вы можете выбрать среди множества услуг себе по душе и по карману.
+                </p>
+                <p><a class="btn btn-primary btn-lg" href="{% url 'service_list' %}" role="button">Список услуг &raquo;</a></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row w-75 mx-auto">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'images/card-filler-2.jpg' %}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Вы даже не представляете, какие возможности открылись передо мной!</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                content.</p>
+                                <p><a class="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'images/card-filler.jpg' %}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Этот сервис изменил мою жизнь!</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                content.</p>
+                                <p><a class="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img class="card-img-top" src="" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                content.</p>
+                                <p><a class="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div> <!-- /container -->
+
+    </main>
+{% endblock %}

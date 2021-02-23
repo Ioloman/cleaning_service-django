@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}УбирайКА | iCal Network | Профиль | {{ user_service }}{% endblock %}
+
+{% block content %}
+    {% load widget_tweaks %}
+    <main role="main">
+        <div class="container">
+            <div class="row">
+                <div class="my-3 col-12 col-sm-10 col-md-9 col-lg-7 mx-auto">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{ user_service.user.username }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user_service.last_name }} {{ user_service.name }}</h5>
+                            <p class="card-text">{{ user_service.description }}</p>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <div class="float-md-left">
+                                <span class="material-icons">call</span>
+                                Тел: {{ user_service.phone }}
+                            </div>
+                            <div class="float-md-right">
+                                <h3>{{ user_service.get_type_display }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-lg-9 col-md-10 col-sm-11 col-12 mx-auto mb-2">
+                    <a class="btn btn-primary" href="{% url 'service_create' %}">Создать</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="list-group col-lg-9 col-md-10 col-sm-11 col-12 mx-auto">
+                    {% for service in services %}
+                        <a href="{% url 'service' pk_service=service.service_pk %}"
+                           class="list-group-item list-group-item-action flex-column align-items-start {% if service.importance %}active{% endif %}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ service.title }}</h5>
+                                <small>{{ service.date|date:"d.m.y" }}</small>
+                            </div>
+                            <p class="mb-1">{{ service.description }}
+                            </p>
+                            <small class="clearfix {% if not service.importance %}text-muted{% endif %}">
+                                <div class="float-left">{{ service.user_service_pk.last_name }} {{ service.user_service_pk.name }}</div>
+                                <div class="float-right">{{ service.service_type_pk.name }}</div>
+                            </small>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

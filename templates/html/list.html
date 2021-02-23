@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}УбирайКА | iCal Network | Список услуг{% endblock %}
+
+{% block content %}
+
+    <main role="main">
+        <div class="container space-created">
+            <div class="row">
+                <div class="form-inline my-3 col-md-6 col-lg-4 col-sm-8">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Поиск услуги" aria-label="Search" readonly>
+                    <button class="btn btn-outline-success my-2 my-sm-0 disabled" type="submit">Поиск</button>
+                </div>
+                <div class="input-group my-3 col-md-6 col-lg-4 col-sm-8">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Услуга: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01">
+                        <option selected>-----</option>
+                        {% for type_ in types %}
+                            <option value="{{ type_.name }}">{{ type_.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="list-group col-lg-9 col-md-10 col-sm-11 col-12 mx-1">
+                    {% for service in services %}
+                    <a href="{% url 'service' pk_service=service.service_pk %}" class="list-group-item list-group-item-action flex-column align-items-start {% if service.importance %}active{% endif %}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ service.title }}</h5>
+                            <small>{{ service.date|date:"d.m.y" }}</small>
+                        </div>
+                        <p class="mb-1">{{ service.description }}
+                        </p>
+                        <small class="clearfix {% if not service.importance %}text-muted{% endif %}">
+                            <div class="float-left">{{ service.user_service_pk.last_name }} {{ service.user_service_pk.name }}</div>
+                            <div class="float-right">{{ service.service_type_pk.name }}</div>
+                        </small>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    
+    
+    </main>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}УбирайКА | iCal Network | Услуга | {{ service.title }}{% endblock %}
+
+{% block content %}
+
+    <main role="main">
+        <div class="container">
+            <div class="row">
+                <div class="my-3 col-12 col-sm-10 col-md-9 col-lg-7 mx-auto">
+                    {% if user.id == service.user_service_pk.user.id %}
+                        <a href="{% url 'service_edit' pk_service=service.service_pk %}">
+                            <span class="badge badge-primary mb-1">Изменить</span>
+                        </a>
+                    {% endif %}
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{ service.user_service_pk.last_name }} {{ service.user_service_pk.name }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.title }}</h5>
+                            <p class="card-text">{{ service.description}}</p>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <div class="float-md-left">
+                                <span class="material-icons">call</span>
+                                Тел: {{ service.user_service_pk.phone }}
+                            </div>
+                            <div class="float-md-right">
+                                <h3>{{ service.price }} ₽</h3>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted clearfix">
+                            <div class="float-md-right">{{ service.service_type_pk.name }}</div>
+                            <div class="float-md-left">{{ service.date|date:"d.m.y" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

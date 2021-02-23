@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}УбирайКА | iCal Network | Услуга | Создать{% endblock %}
+
+{% block content %}
+
+    <main role="main">
+        <div class="container">
+            <div class="row">
+                <div class="my-3 col-12 col-sm-10 col-md-9 col-lg-7 mx-auto">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="card text-center">
+                            <div class="card-header">
+                                {{ service_user.last_name }} {{ service_user.name }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title w-75 mx-auto"><input name="title" type="text" class="form-control"
+                                                                           placeholder="Название услуги"></h5>
+                                <p class="card-text"><textarea name="description" class="form-control"
+                                                               rows="6" placeholder="Описание услуги"></textarea></p>
+                            </div>
+                            <div class="card-footer clearfix">
+                                <div class="float-left">
+                                    <span class="material-icons">call</span>
+                                    {{ service_user.phone }}
+                                </div>
+                                <div class="float-md-right">
+                                    <div class="input-group w-75 float-right">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Цена: </label>
+                                        </div>
+                                        <input name="price" type="text" class="form-control" aria-label="price"
+                                               placeholder="1150.50" aria-describedby="basic-addon1"
+                                               id="inputGroupSelect01">
+                                        <div class="input-group-append">
+                                            <label class="input-group-text" for="inputGroupSelect01">₽</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted clearfix">
+                                <div class="float-md-right">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Услуга: </label>
+                                        </div>
+                                        <select name="type-name" class="custom-select" id="inputGroupSelect01">
+                                            {% for type_ in types %}
+                                                <option value="{{ type_.name }}">{{ type_.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="float-md-left">{% now "d.m.y" %}</div>
+                            </div>
+                            <div class="card-footer clearfix">
+                                <div class="float-left">
+                                    <button type="submit" class="btn btn-primary" formaction="{% url 'service_create' %}">Создать</button>
+                                </div>
+                                <div class="float-right">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
