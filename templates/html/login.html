@@ -18,7 +18,8 @@
                     <label>Пароль</label>
                     {% render_field form.password class+="form-control" %}
                 </div>
-                 <button type="submit" class="btn btn-primary">Войти</button>
+                <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                <button type="submit" class="btn btn-primary">Войти</button>
             </form>
         </div>
     </main>
