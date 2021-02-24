@@ -42,7 +42,7 @@
                                 <h5 class="mb-1">{{ service.title }}</h5>
                                 <small>{{ service.date|date:"d.m.y" }}</small>
                             </div>
-                            <p class="mb-1">{{ service.description }}
+                            <p class="mb-1">{{ service.description|truncatechars:190 }}
                             </p>
                             <small class="clearfix {% if not service.importance %}text-muted{% endif %}">
                                 <div class="float-left">{{ service.user_service_pk.last_name }} {{ service.user_service_pk.name }}</div>
