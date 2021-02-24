@@ -6,7 +6,7 @@ class Service(models.Model):
     user_service_pk = models.ForeignKey('UserService', models.CASCADE, db_column='user_service_pk')
     service_type_pk = models.ForeignKey('ServiceType', models.RESTRICT, db_column='service_type_pk')
     title = models.CharField(max_length=50)
-    description = models.CharField(max_length=150, blank=True, null=True)
+    description = models.CharField(max_length=300, blank=True, null=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     service_pk = models.AutoField(primary_key=True)
     date = models.DateField(auto_now_add=True)
@@ -36,7 +36,7 @@ class UserService(models.Model):
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     user_service_pk = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=150, blank=True, null=True)
+    description = models.CharField(max_length=300, blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
     TYPES_OF_USER = [
         (1, 'Частное лицо'),

@@ -64,7 +64,6 @@ def service_create(request):
             return redirect('profile')
 
 
-
 @login_required
 def service_delete(request, pk_service):
     service_ = get_object_or_404(Service, service_pk=pk_service)
