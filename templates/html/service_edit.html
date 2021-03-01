@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="my-3 col-12 col-sm-10 col-md-9 col-lg-7 mx-auto">
-                    <form method="POST">
+                    <form id="editForm">
                         {% csrf_token %}
                         <div class="card text-center">
                             <div class="card-header">
@@ -16,7 +16,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title w-75 mx-auto"><input name="title" type="text" class="form-control"
-                                                                           value="{{ service.title }}"></h5>
+                                                                           required value="{{ service.title }}"></h5>
                                 <p class="card-text"><textarea maxlength="300" name="description" class="form-control"
                                                                rows="6">{{ service.description }}</textarea></p>
                             </div>
@@ -56,10 +56,10 @@
                             </div>
                             <div class="card-footer clearfix">
                                 <div class="float-left">
-                                    <button type="submit" class="btn btn-primary" formaction="{% url 'service_edit' pk_service=service.service_pk %}">Изменить</button>
+                                    <button type="submit" class="btn btn-primary" formaction="{% url 'service' pk_service=service.service_pk %}" id="editButton">Изменить</button>
                                 </div>
                                 <div class="float-right">
-                                    <button type="submit" class="btn btn-danger" formaction="{% url 'service_delete' pk_service=service.service_pk %}">Удалить</button>
+                                    <button type="submit" class="btn btn-danger" formaction="{% url 'service' pk_service=service.service_pk %}" id="deleteButton">Удалить</button>
                                 </div>
                             </div>
                         </div>
@@ -69,4 +69,9 @@
         </div>
     </main>
 
+{% endblock %}
+
+{% block javascript %}
+    {% load static %}
+    <script src="{% static 'js/ajaxForms.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,7 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, QueryDict
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+
 from .models import ServiceType, Service, UserService
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
@@ -19,10 +21,39 @@ def service_list(request):
     return render(request, 'html/list.html', {'services': services, 'types': types})
 
 
+def service_list_update(request):
+    if request.is_ajax() and request.method == 'GET':
+        if request.GET.get('type_') == '0':
+            services = Service.objects.all().order_by('-date')
+        else:
+            services = Service.objects.filter(service_type_pk__name=request.GET.get('type_')).order_by('-date')
+        return render(request, 'ajax/list_update.html', {'services': services})
+
+
 @login_required
 def service(request, pk_service):
     service_ = get_object_or_404(Service, service_pk=pk_service)
-    return render(request, 'html/service.html', {'service': service_})
+    if request.method == 'GET':
+        return render(request, 'html/service.html', {'service': service_})
+    elif request.is_ajax():
+        if request.user.id != service_.user_service_pk.user.id:
+            return HttpResponse(403)
+        if request.method == 'PUT':
+            request.PUT = QueryDict(request.body)
+            form = ServiceForm(request.PUT, instance=service_)
+            if form.is_valid():
+                service_ = form.save()
+                type_name = request.PUT.get('type-name')
+                if service_.service_type_pk.name != type_name:
+                    type_ = get_object_or_404(ServiceType, name=type_name)
+                    service_.service_type_pk = type_
+                    service_.save()
+                return JsonResponse({'status': 'Success', 'redirectTo': reverse('service', args=[pk_service])})
+            else:
+                return JsonResponse({'status': 'Failed'})
+        elif request.method == 'DELETE':
+            service_.delete()
+            return JsonResponse({'status': 'Success', 'redirectTo': reverse('profile')})
 
 
 @login_required
@@ -33,16 +64,6 @@ def service_edit(request, pk_service):
         return HttpResponse(403)
     elif request.method == 'GET':
         return render(request, 'html/service_edit.html', {'service': service_, 'types': types})
-    elif request.method == 'POST':
-        form = ServiceForm(request.POST, instance=service_)
-        if form.is_valid():
-            service_ = form.save()
-            type_name = request.POST.get('type-name')
-            if service_.service_type_pk.name != type_name:
-                type_ = get_object_or_404(ServiceType, name=type_name)
-                service_.service_type_pk = type_
-                service_.save()
-        return redirect('service', pk_service)
 
 
 @login_required
@@ -59,19 +80,9 @@ def service_create(request):
             service_.service_type_pk = type_
             service_.user_service_pk = UserService.objects.get(user=request.user)
             service_.save()
-            return redirect('service', service_.service_pk)
+            return JsonResponse({'status': 'Success', 'redirectTo': reverse('service', args=[service_.service_pk])})
         else:
-            return redirect('profile')
-
-
-@login_required
-def service_delete(request, pk_service):
-    service_ = get_object_or_404(Service, service_pk=pk_service)
-    if request.user.id != service_.user_service_pk.user.id:
-        return HttpResponse(403)
-    elif request.method == 'POST':
-        service_.delete()
-        return redirect('profile')
+            return JsonResponse({'status': 'Failed'})
 
 
 def login_user(request):

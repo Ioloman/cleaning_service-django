@@ -1,0 +1,17 @@
+<div class="list-group col-lg-9 col-md-10 col-sm-11 col-12 mx-1">
+    {% for service in services %}
+        <a href="{% url 'service' pk_service=service.service_pk %}"
+           class="list-group-item list-group-item-action flex-column align-items-start {% if service.importance %}active{% endif %}">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ service.title }}</h5>
+                <small>{{ service.date|date:"d.m.y" }}</small>
+            </div>
+            <p class="mb-1">{{ service.description|truncatechars:190 }}
+            </p>
+            <small class="clearfix {% if not service.importance %}text-muted{% endif %}">
+                <div class="float-left">{{ service.user_service_pk.last_name }} {{ service.user_service_pk.name }}</div>
+                <div class="float-right">{{ service.service_type_pk.name }}</div>
+            </small>
+        </a>
+    {% endfor %}
+</div>
